@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Send String to API</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container, .login-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    textarea, input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: none;
+      min-height: 80px;
+      overflow-y: hidden;
+      line-height: 1.5;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 5px;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #logout {
+      background-color: #dc3545;
+    }
+
+    #logout:hover {
+      background-color: #a71d2a;
+    }
+
+    #response {
+      margin-top: 20px;
+      text-align: left;
+      white-space: pre-wrap;
+      font-family: monospace;
+      background-color: #f0f0f0;
+      padding: 10px;
+      border-radius: 6px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔐 Login Form -->
+  <div class="login-container" id="login">
+    <h2>Enter Access Password</h2>
+    <input type="password" id="passwordInput" placeholder="Enter password..." />
+    <button onclick="checkAccess()">Login</button>
+  </div>
+
+  <!-- ✅ Main App -->
+  <div class="container" id="app" style="display:none;">
+    <h2>Send Data to Secure API</h2>
+    <textarea id="inputData" placeholder="Enter your string..." oninput="autoResize(this)"></textarea>
+    <button onclick="sendData()">Send</button>
+    <button onclick="clearInput()">Clear</button>
+    <div id="response"></div>
+    <button id="logout" onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+
+    const API_BASE = 'http://localhost:5080';
+    // ✅ Compatible environment-based API URL
+    // const API_BASE = location.hostname === 'localhost'
+    //   ? 'http://localhost:5080'
+    //   : 'https://your-deployment-url.com'; // <- Replace this
+
+    window.onload = function () {
+      const stored = sessionStorage.getItem('access_granted');
+      if (stored === 'true') {
+        showApp();
+      } else {
+        showLogin();
+      }
+    };
+
+    function checkAccess() {
+      const password = document.getElementById('passwordInput').value.trim();
+      if (!password) {
+        alert('Enter password.');
+        return;
+      }
+      sessionStorage.setItem('user_password', password);
+      sessionStorage.setItem('access_granted', 'true');
+      showApp();
+    }
+
+    function logout() {
+      sessionStorage.clear();
+      location.reload();
+    }
+
+    function showApp() {
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+    }
+
+    function showLogin() {
+      document.getElementById('login').style.display = 'block';
+      document.getElementById('app').style.display = 'none';
+    }
+
+    function autoResize(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    function clearInput() {
+      const textarea = document.getElementById('inputData');
+      textarea.value = '';
+      autoResize(textarea);
+      document.getElementById('response').style.display = 'none';
+    }
+
+    async function sendData() {
+      const input = document.getElementById('inputData').value.trim();
+      const password = sessionStorage.getItem('user_password');
+      const responseBox = document.getElementById('response');
+
+      if (!input) {
+        alert("Please enter a string.");
+        return;
+      }
+
+      responseBox.textContent = "Sending...";
+      responseBox.style.display = "block";
+
+      try {
+        const res = await fetch(`${API_BASE}/submit`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ data: input, password })
+        });
+
+        const result = await res.json();
+
+        if (res.ok) {
+          responseBox.textContent = "✅ Data sent successfully.";
+        } else {
+          responseBox.textContent = "❌ Error: " + result.error;
+        }
+
+      } catch (err) {
+        responseBox.textContent = "❌ Network error: " + err.message;
+      }
+    }
+
+    // ✅ Expose to global scope
+    window.checkAccess = checkAccess;
+    window.logout = logout;
+    window.sendData = sendData;
+    window.clearInput = clearInput;
+    window.autoResize = autoResize;
+  </script>
+
+</body>
+</html>
