@@ -15,11 +15,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // Middleware
-app.use(cors({
-    origin: ['http://localhost:5500', 'http://127.0.0.1:5500', 'https://your-deployment-url.com/submit'],
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type'],
-  }));
+app.use(cors({ origin: '*' }));
 
 app.use(express.json());
 // app.use(express.static(path.join(__dirname, '../public')));
@@ -56,9 +52,9 @@ app.post('/submit', async (req, res) => {
     }
   });  
 
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-  });
+//   app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'public', 'index.html'));
+//   });
   
   
 

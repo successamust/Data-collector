@@ -100,11 +100,11 @@
 
   <script>
 
-    const API_BASE = 'http://localhost:5080';
+    // const API_BASE = 'http://localhost:5080';
     // ✅ Compatible environment-based API URL
-    // const API_BASE = location.hostname === 'localhost'
-    //   ? 'http://localhost:5080'
-    //   : 'https://your-deployment-url.com'; // <- Replace this
+    const API_BASE = location.hostname === 'localhost'
+      ? 'http://localhost:5080'
+      : 'https://data-collector-xaow.onrender.com'; // <- Replace this
 
     window.onload = function () {
       const stored = sessionStorage.getItem('access_granted');
