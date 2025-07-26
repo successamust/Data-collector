@@ -56,6 +56,17 @@ app.post('/submit', async (req, res) => {
 //     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 //   });
   
+app.post('/check-password', (req, res) => {
+    const { password } = req.body;
+  
+    if (password === process.env.ACCESS_PASSWORD) {
+      return res.json({ ok: true });
+    } else {
+      return res.status(403).json({ error: 'Invalid password' });
+    }
+  });
+  
+   
   
 
 const PORT = process.env.PORT || 5000;

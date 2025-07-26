@@ -99,12 +99,12 @@
   </div>
 
   <script>
+    const isLocalhost = ['localhost', '127.0.0.1'].includes(location.hostname);
 
-    // const API_BASE = 'http://localhost:5080';
-    // ✅ Compatible environment-based API URL
-    const API_BASE = location.hostname === 'localhost'
-      ? 'http://localhost:5080'
-      : 'https://data-collector-xaow.onrender.com'; // <- Replace this
+    const API_BASE = isLocalhost
+    ? 'http://localhost:5080'
+    : 'https://data-collector-xaow.onrender.com';
+
 
     window.onload = function () {
       const stored = sessionStorage.getItem('access_granted');
@@ -115,42 +115,31 @@
       }
     };
 
-    function checkAccess() {
+    async function checkAccess() {
       const password = document.getElementById('passwordInput').value.trim();
       if (!password) {
         alert('Enter password.');
         return;
       }
-      sessionStorage.setItem('user_password', password);
-      sessionStorage.setItem('access_granted', 'true');
-      showApp();
-    }
 
-    function logout() {
-      sessionStorage.clear();
-      location.reload();
-    }
+      try {
+        const res = await fetch(`${API_BASE}/check-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password })
+        });
 
-    function showApp() {
-      document.getElementById('login').style.display = 'none';
-      document.getElementById('app').style.display = 'block';
-    }
-
-    function showLogin() {
-      document.getElementById('login').style.display = 'block';
-      document.getElementById('app').style.display = 'none';
-    }
-
-    function autoResize(textarea) {
-      textarea.style.height = 'auto';
-      textarea.style.height = textarea.scrollHeight + 'px';
-    }
-
-    function clearInput() {
-      const textarea = document.getElementById('inputData');
-      textarea.value = '';
-      autoResize(textarea);
-      document.getElementById('response').style.display = 'none';
+        if (res.ok) {
+          sessionStorage.setItem('user_password', password);
+          sessionStorage.setItem('access_granted', 'true');
+          showApp();
+        } else {
+          const error = await res.json();
+          alert('❌ ' + (error.error || 'Invalid password'));
+        }
+      } catch (err) {
+        alert('❌ Network error: ' + err.message);
+      }
     }
 
     async function sendData() {
@@ -188,7 +177,34 @@
       }
     }
 
-    // ✅ Expose to global scope
+    function logout() {
+      sessionStorage.clear();
+      location.reload();
+    }
+
+    function showApp() {
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+    }
+
+    function showLogin() {
+      document.getElementById('login').style.display = 'block';
+      document.getElementById('app').style.display = 'none';
+    }
+
+    function autoResize(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    function clearInput() {
+      const textarea = document.getElementById('inputData');
+      textarea.value = '';
+      autoResize(textarea);
+      document.getElementById('response').style.display = 'none';
+    }
+
+    // ✅ Expose functions
     window.checkAccess = checkAccess;
     window.logout = logout;
     window.sendData = sendData;
