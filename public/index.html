@@ -69,10 +69,21 @@
     }
 
     textarea {
-      resize: none;
-      min-height: 100px;
+      height: 500px;
+      resize: vertical;
+      overflow-y: auto;
       line-height: 1.5;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 16px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
+
 
     button {
       background-color: var(--primary);
@@ -141,7 +152,7 @@
   <!-- ✅ Main App -->
   <div class="glass-card" id="app" style="display:none;">
     <h2>📤 Send Secure Data</h2>
-    <textarea id="inputData" placeholder="Enter your string..." oninput="autoResize(this)"></textarea>
+    <textarea id="inputData" placeholder="Enter your string..."></textarea>
     <button onclick="sendData()">Send</button>
     <button onclick="clearInput()">Clear</button>
     <div id="response"></div>
