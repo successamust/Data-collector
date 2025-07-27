@@ -1,4 +1,4 @@
-````
+````md
 # 🔐 Secure Data Sender
 
 A modern, lightweight web application that lets authorized users securely submit and transmit sensitive data to a backend server. Built with a responsive glassmorphism UI and password-protected access layer.
