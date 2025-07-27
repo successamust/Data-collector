@@ -53,12 +53,12 @@ A modern, lightweight web application that lets authorized users securely submit
 
    ```bash
    npm install
-   ```
+```
 4. Start the server:
 
    ```bash
    npm start
-   ```
+```
 
 ### 🌐 Frontend Setup
 
