@@ -1,4 +1,5 @@
-````md
+
+
 # 🔐 Secure Data Sender
 
 A modern, lightweight web application that lets authorized users securely submit and transmit sensitive data to a backend server. Built with a responsive glassmorphism UI and password-protected access layer.
@@ -7,30 +8,30 @@ A modern, lightweight web application that lets authorized users securely submit
 
 ## 📦 Features
 
-- 🔐 **Access Control**: Only users with the correct password can access the data submission form.
-- 📤 **Secure Data Submission**: Send sensitive data through a protected POST request.
-- 💅 **Beautiful UI**: Glassmorphic interface with smooth animations and responsive design.
-- 🔄 **Loading Spinner**: Visual feedback for user actions (e.g., login process).
-- 🧼 **Clear UX**: Easily clear form data and toggle login/logout states.
+- 🔐 **Access Control**: Only users with the correct password can access the data submission form.  
+- 📤 **Secure Data Submission**: Send sensitive data through a protected POST request.  
+- 💅 **Beautiful UI**: Glassmorphic interface with smooth animations and responsive design.  
+- 🔄 **Loading Spinner**: Visual feedback for user actions (e.g., login process).  
+- 🧼 **Clear UX**: Easily clear form data and toggle login/logout states.  
 
 ---
 
 ## ⚙️ Tech Stack
 
-| Layer    | Technology                    |
-|----------|-------------------------------|
-| Frontend | HTML, CSS, JavaScript (Vanilla) |
-| Backend  | Node.js + Express             |
-| Hosting  | [Render](https://render.com)  |
-| Auth     | `.env`-based password system  |
+| Layer    | Technology                     |
+|----------|--------------------------------|
+| Frontend | HTML, CSS, JavaScript (Vanilla)|
+| Backend  | Node.js + Express              |
+| Hosting  | [Render](https://render.com)   |
+| Auth     | `.env`-based password system   |
 
 ---
 
 ## 🚀 Live Demo
 
-**Backend URL**  
+**Backend URL:**  
 🔗 [https://data-collector-xaow.onrender.com](https://data-collector-xaow.onrender.com)  
-*Note: Only backend is hosted. You’ll need to run or host the frontend separately.*
+*Note: Only backend is hosted. You'll need to run or host the frontend separately.*
 
 ---
 
@@ -38,17 +39,17 @@ A modern, lightweight web application that lets authorized users securely submit
 
 ### 🔧 Prerequisites
 
-- [Node.js](https://nodejs.org/) installed
+- [Node.js](https://nodejs.org/) installed  
 - Optional: Live Server extension for frontend testing
 
 ### 📁 Backend Setup
 
-1. Clone the repo or navigate to your `server` folder.
+1. Clone the repo or navigate to your `server` folder.  
 2. Create a `.env` file:
 
    ```env
    ACCESS_PASSWORD=yourpassword
-````
+   ```
 
 3. Install dependencies:
 
@@ -62,9 +63,11 @@ A modern, lightweight web application that lets authorized users securely submit
    npm start
    ```
 
+---
+
 ### 🌐 Frontend Setup
 
-Just open `index.html` in your browser, or use Live Server (more preferable).
+Just open `index.html` in your browser, or use Live Server (recommended).
 
 To test locally, ensure this code is present in `index.html`:
 
@@ -90,7 +93,7 @@ if (req.body.password === process.env.ACCESS_PASSWORD) {
 
 ## 📂 Project Structure
 
-```bash
+```txt
 debt-collector/
 ├── public/          # Frontend (index.html, styles)
 ├── server/          # Backend (Node.js/Express)
@@ -99,4 +102,6 @@ debt-collector/
 ```
 
 ```
+
+
 ```
