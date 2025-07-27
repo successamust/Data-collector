@@ -73,17 +73,7 @@
       resize: vertical;
       overflow-y: auto;
       line-height: 1.5;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 16px;
-      background-color: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
     }
-
 
     button {
       background-color: var(--primary);
@@ -100,6 +90,11 @@
     button:hover {
       background-color: #2176d2;
       transform: translateY(-2px);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     #logout {
@@ -120,6 +115,22 @@
       border-radius: 8px;
       display: none;
       animation: fadeIn 0.5s ease;
+    }
+
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top: 4px solid #4e9af1;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      animation: spin 0.8s linear infinite;
+      margin: 10px auto;
+      display: none;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     @keyframes fadeIn {
@@ -146,7 +157,8 @@
   <div class="glass-card" id="login">
     <h2>🔐 Enter Access Password</h2>
     <input type="password" id="passwordInput" placeholder="Enter password..." />
-    <button onclick="checkAccess()">Login</button>
+    <button id="loginBtn" onclick="checkAccess()">Login</button>
+    <div class="spinner" id="loginSpinner"></div>
   </div>
 
   <!-- ✅ Main App -->
@@ -172,7 +184,13 @@
 
     async function checkAccess() {
       const password = document.getElementById('passwordInput').value.trim();
+      const spinner = document.getElementById('loginSpinner');
+      const loginBtn = document.getElementById('loginBtn');
+
       if (!password) return alert('Enter password.');
+
+      spinner.style.display = 'block';
+      loginBtn.disabled = true;
 
       try {
         const res = await fetch(`${API_BASE}/check-password`, {
@@ -180,6 +198,9 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ password })
         });
+
+        spinner.style.display = 'none';
+        loginBtn.disabled = false;
 
         if (res.ok) {
           sessionStorage.setItem('user_password', password);
@@ -190,6 +211,8 @@
           alert('❌ ' + (err.error || 'Invalid password'));
         }
       } catch (err) {
+        spinner.style.display = 'none';
+        loginBtn.disabled = false;
         alert('❌ Network error: ' + err.message);
       }
     }
