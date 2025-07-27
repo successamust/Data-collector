@@ -1,4 +1,4 @@
-
+````md
 # 🔐 Secure Data Sender
 
 A modern, lightweight web application that lets authorized users securely submit and transmit sensitive data to a backend server. Built with a responsive glassmorphism UI and password-protected access layer.
@@ -17,18 +17,18 @@ A modern, lightweight web application that lets authorized users securely submit
 
 ## ⚙️ Tech Stack
 
-| Layer    | Technology          |
-|----------|---------------------|
+| Layer    | Technology                    |
+|----------|-------------------------------|
 | Frontend | HTML, CSS, JavaScript (Vanilla) |
-| Backend  | Node.js + Express   |
-| Hosting  | [Render](https://render.com) |
-| Auth     | `.env`-based password system |
+| Backend  | Node.js + Express             |
+| Hosting  | [Render](https://render.com)  |
+| Auth     | `.env`-based password system  |
 
 ---
 
 ## 🚀 Live Demo
 
-**Backend URL**:  
+**Backend URL**  
 🔗 [https://data-collector-xaow.onrender.com](https://data-collector-xaow.onrender.com)  
 *Note: Only backend is hosted. You’ll need to run or host the frontend separately.*
 
@@ -45,6 +45,7 @@ A modern, lightweight web application that lets authorized users securely submit
 
 1. Clone the repo or navigate to your `server` folder.
 2. Create a `.env` file:
+
    ```env
    ACCESS_PASSWORD=yourpassword
 ````
@@ -53,16 +54,17 @@ A modern, lightweight web application that lets authorized users securely submit
 
    ```bash
    npm install
-```
+   ```
+
 4. Start the server:
 
    ```bash
    npm start
-```
+   ```
 
 ### 🌐 Frontend Setup
 
-Just open `index.html` in your browser, or use Live Server(more preferable).
+Just open `index.html` in your browser, or use Live Server (more preferable).
 
 To test locally, ensure this code is present in `index.html`:
 
@@ -88,7 +90,7 @@ if (req.body.password === process.env.ACCESS_PASSWORD) {
 
 ## 📂 Project Structure
 
-```
+```bash
 debt-collector/
 ├── public/          # Frontend (index.html, styles)
 ├── server/          # Backend (Node.js/Express)
@@ -96,6 +98,5 @@ debt-collector/
 │   └── .env
 ```
 
----
-
-
+```
+```
